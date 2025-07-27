@@ -219,35 +219,6 @@ export class LoginComponent {
     private router: Router
   ) {}
 
-  onLogin(): void {
-    if (!this.credentials.vendorId || !this.credentials.password) {
-      this.toastService.error('Please enter both vendor ID and password');
-      return;
-    }
-
-    // Dummy credentials for testing - remove when backend is ready
-    // if (this.credentials.vendorId === 'admin' && this.credentials.password === 'admin') {
-    //   this.isLoading = true;
-      
-    //   // Simulate API delay
-    //   setTimeout(() => {
-    //     this.isLoading = false;
-        
-    //     // Set dummy session data
-    //     sessionStorage.setItem('isAuthenticated', 'true');
-    //     sessionStorage.setItem('vendorId', '0000001234');
-        
-    //     this.toastService.success('Login successful');
-    //     setTimeout(() => {
-    //       this.router.navigate(['/dashboard']);
-    //     }, 1000);
-    //   }, 1000);
-    //   return;
-    // }
-
-    this.isLoading = true;
-    
-    // TODO: Uncomment when backend is ready
 onLogin(): void {
   if (!this.credentials.vendorId || !this.credentials.password) {
     this.toastService.error('Please enter both vendor ID and password');
@@ -301,6 +272,4 @@ onLogin(): void {
   */
 }
 
-
-  }
 }
