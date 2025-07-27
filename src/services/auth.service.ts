@@ -49,7 +49,7 @@ login(credentials: LoginRequest): Observable<{ success: boolean; message: string
   return new Observable(observer => {
     // Simulate checking hardcoded credentials
     if (credentials.customerId === '0000000002' && credentials.password === 'test') {
-      const customerId = credentials.customerId.padStart(10, '0'); 
+      const customerId = credentials.customerId.padStart(10, '0'); // ✅ Define it here
 
       sessionStorage.setItem('isAuthenticated', 'true');
       sessionStorage.setItem('customerId', customerId);
@@ -64,6 +64,7 @@ login(credentials: LoginRequest): Observable<{ success: boolean; message: string
     observer.complete();
   });
 }
+
 
 
   private loadCustomerProfile(customerId: string): void {
