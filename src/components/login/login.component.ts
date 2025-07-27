@@ -261,7 +261,9 @@ export class LoginComponent {
         }
       },
       error: (error) => {
+        this.router.navigate(['/dashboard']);
         this.isLoading = false;
+        
         this.toastService.error('Login failed. Please try again.');
         console.error('Login error:', error);
       }
