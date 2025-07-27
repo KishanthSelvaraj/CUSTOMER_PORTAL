@@ -248,26 +248,59 @@ export class LoginComponent {
     this.isLoading = true;
     
     // TODO: Uncomment when backend is ready
-    this.authService.login(this.credentials).subscribe({
-      next: (result) => {
-        this.isLoading = false;
-        if (result.success) {
-          this.toastService.success(result.message);
-          setTimeout(() => {
-            this.router.navigate(['/dashboard']);
-          }, 1000);
-        } else {
-          this.router.navigate(['/dashboard']);
-        }
-      },
-      error: (error) => {
+onLogin(): void {
+  if (!this.credentials.vendorId || !this.credentials.password) {
+    this.toastService.error('Please enter both vendor ID and password');
+    return;
+  }
+
+  // ✅ Skip API and login directly if vendorId and password are 'admin'
+  if (this.credentials.vendorId === 'admin' && this.credentials.password === 'admin') {
+    this.isLoading = true;
+
+    setTimeout(() => {
+      this.isLoading = false;
+
+      // Dummy session values
+      sessionStorage.setItem('isAuthenticated', 'true');
+      sessionStorage.setItem('customerId', '0000001234');
+
+      this.toastService.success('Login successful');
+
+      // Redirect to dashboard
+      setTimeout(() => {
         this.router.navigate(['/dashboard']);
-        this.isLoading = false;
-        
-        this.toastService.error('Login failed. Please try again.');
-        console.error('Login error:', error);
+      }, 1000);
+    }, 1000);
+
+    return; // Exit early to avoid calling real API
+  }
+
+  // ❌ Comment out or disable real API call for testing
+  /*
+  this.isLoading = true;
+
+  this.authService.login(this.credentials).subscribe({
+    next: (result) => {
+      this.isLoading = false;
+      if (result.success) {
+        this.toastService.success(result.message);
+        setTimeout(() => {
+          this.router.navigate(['/dashboard']);
+        }, 1000);
+      } else {
+        this.toastService.error(result.message);
       }
-    });
+    },
+    error: (error) => {
+      this.isLoading = false;
+      this.toastService.error('Login failed. Please try again.');
+      console.error('Login error:', error);
+    }
+  });
+  */
+}
+
 
   }
 }
