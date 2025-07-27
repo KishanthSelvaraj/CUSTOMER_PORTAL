@@ -27,7 +27,7 @@ export class AuthService {
       message: string;
       customerId?: string;
     }>(`${this.apiUrl}/login`, {
-      CUSTOMER_ID: "test",
+      CUSTOMER_ID: "0000000002",
       PASSWORD: "test"
     }).pipe(
       map(response => {
