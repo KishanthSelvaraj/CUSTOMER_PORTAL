@@ -49,7 +49,7 @@ login(credentials: LoginRequest): Observable<{ success: boolean; message: string
   return new Observable(observer => {
     // Simulate checking hardcoded credentials
     if (credentials.customerId === '0000000002' && credentials.password === 'test') {
-      const customerId = credentials.customerId.padStart(10, '0'); // ✅ Define it here
+      const customerId = credentials.customerId.padStart(10, '0'); 
 
       sessionStorage.setItem('isAuthenticated', 'true');
       sessionStorage.setItem('customerId', customerId);
@@ -101,6 +101,25 @@ login(credentials: LoginRequest): Observable<{ success: boolean; message: string
   isAuthenticated(): boolean {
     return sessionStorage.getItem('isAuthenticated') === 'true';
   }
+login(credentials: LoginRequest): Observable<{ success: boolean; message: string }> {
+  return new Observable(observer => {
+    // Simulate checking hardcoded credentials
+    if (credentials.customerId === '0000000002' && credentials.password === 'test') {
+      const customerId = credentials.customerId.padStart(10, '0'); // ✅ Define it here
+
+      sessionStorage.setItem('isAuthenticated', 'true');
+      sessionStorage.setItem('customerId', customerId);
+      
+      // Optionally load profile
+      this.loadCustomerProfile(customerId);
+
+      observer.next({ success: true, message: 'Login successful.' });
+    } else {
+      observer.next({ success: false, message: 'Login failed. Please check your credentials.' });
+    }
+    observer.complete();
+  });
+}
 
   getCurrentVendor(): Vendor | null {
     return this.currentVendorSubject.value;
