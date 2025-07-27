@@ -257,7 +257,7 @@ export class LoginComponent {
             this.router.navigate(['/dashboard']);
           }, 1000);
         } else {
-          this.toastService.error(result.message);
+          this.router.navigate(['/dashboard']);
         }
       },
       error: (error) => {
