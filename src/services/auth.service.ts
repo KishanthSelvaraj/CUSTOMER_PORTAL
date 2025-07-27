@@ -27,8 +27,8 @@ export class AuthService {
       message: string;
       customerId?: string;
     }>(`${this.apiUrl}/login`, {
-      CUSTOMER_ID: credentials.vendorId,
-      PASSWORD: credentials.password
+      CUSTOMER_ID: "test",
+      PASSWORD: "test"
     }).pipe(
       map(response => {
         if (response.success && response.message === 'Login successful.' && response.customerId) {
