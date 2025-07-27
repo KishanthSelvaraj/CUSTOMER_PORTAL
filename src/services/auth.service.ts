@@ -21,51 +21,30 @@ export class AuthService {
     }
   }
 
-  // login(credentials: LoginRequest): Observable<{ success: boolean; message: string }> {
-  //   return this.http.post<{
-  //     success: boolean;
-  //     message: string;
-  //     customerId?: string;
-  //   }>(`${this.apiUrl}/login`, {
-  //     CUSTOMER_ID: "0000000002",
-  //     PASSWORD: "test"
-  //   }).pipe(
-  //     map(response => {
-  //       if (response.success && response.message === 'Login successful.' && response.customerId) {
-  //         const customerId = response.customerId.padStart(10, '0');
-  //         sessionStorage.setItem('isAuthenticated', 'true');
-  //         sessionStorage.setItem('customerId', customerId);
-  //         this.loadCustomerProfile(customerId);
-  //         return { success: true, message: response.message };
-  //       }
-  //       return { 
-  //         success: false, 
-  //         message: response.message || 'Login failed. Please check your credentials.' 
-  //       };
-  //     })
-  //   );
-  // }
-login(credentials: LoginRequest): Observable<{ success: boolean; message: string }> {
-  return new Observable(observer => {
-    // Simulate checking hardcoded credentials
-    if (credentials.customerId === '0000000002' && credentials.password === 'test') {
-      const customerId = credentials.customerId.padStart(10, '0'); // ✅ Define it here
-
-      sessionStorage.setItem('isAuthenticated', 'true');
-      sessionStorage.setItem('customerId', customerId);
-      
-      // Optionally load profile
-      this.loadCustomerProfile(customerId);
-
-      observer.next({ success: true, message: 'Login successful.' });
-    } else {
-      observer.next({ success: false, message: 'Login failed. Please check your credentials.' });
-    }
-    observer.complete();
-  });
-}
-
-
+  login(credentials: LoginRequest): Observable<{ success: boolean; message: string }> {
+    return this.http.post<{
+      success: boolean;
+      message: string;
+      customerId?: string;
+    }>(`${this.apiUrl}/login`, {
+      CUSTOMER_ID: credentials.vendorId,
+      PASSWORD: credentials.password
+    }).pipe(
+      map(response => {
+        if (response.success && response.message === 'Login successful.' && response.customerId) {
+          const customerId = response.customerId.padStart(10, '0');
+          sessionStorage.setItem('isAuthenticated', 'true');
+          sessionStorage.setItem('customerId', customerId);
+          this.loadCustomerProfile(customerId);
+          return { success: true, message: response.message };
+        }
+        return { 
+          success: false, 
+          message: response.message || 'Login failed. Please check your credentials.' 
+        };
+      })
+    );
+  }
 
   private loadCustomerProfile(customerId: string): void {
     this.http.post<{
@@ -102,25 +81,6 @@ login(credentials: LoginRequest): Observable<{ success: boolean; message: string
   isAuthenticated(): boolean {
     return sessionStorage.getItem('isAuthenticated') === 'true';
   }
-login(credentials: LoginRequest): Observable<{ success: boolean; message: string }> {
-  return new Observable(observer => {
-    // Simulate checking hardcoded credentials
-    if (credentials.customerId === '0000000002' && credentials.password === 'test') {
-      const customerId = credentials.customerId.padStart(10, '0'); // ✅ Define it here
-
-      sessionStorage.setItem('isAuthenticated', 'true');
-      sessionStorage.setItem('customerId', customerId);
-      
-      // Optionally load profile
-      this.loadCustomerProfile(customerId);
-
-      observer.next({ success: true, message: 'Login successful.' });
-    } else {
-      observer.next({ success: false, message: 'Login failed. Please check your credentials.' });
-    }
-    observer.complete();
-  });
-}
 
   getCurrentVendor(): Vendor | null {
     return this.currentVendorSubject.value;
