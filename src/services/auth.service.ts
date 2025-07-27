@@ -49,7 +49,6 @@ export class AuthService {
   return new Observable(observer => {
     // Simulate checking hardcoded credentials (you can customize this)
     if (credentials.customerId === '0000000002' && credentials.password === 'test') {
-      const customerId = credentials.customerId.padStart(10, '0');
       sessionStorage.setItem('isAuthenticated', 'true');
       sessionStorage.setItem('customerId', customerId);
       this.loadCustomerProfile(customerId); // optional if it accesses mock too
